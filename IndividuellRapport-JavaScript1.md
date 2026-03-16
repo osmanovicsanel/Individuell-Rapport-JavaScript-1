@@ -1,7 +1,7 @@
 # Individuell Rapport - Väderapp
 **Sanel Osmanovic**
 ----------------------------------------------
-## Del 1 - Teori: Web API:er
+## DEL 1 - Teori: Web API:er
 
 ### Fråga 1: Vad är ett API?
 
@@ -110,11 +110,11 @@ Ett RESTful API är en samling regler för hur API ska byggas för att det ska v
 
 RESTful API bygger på tre principer:
 
-* 1. Klienten (vår väderapp) och servern (weatherAPI) är helt fristående. Så länge de följer REST-reglerna kan servern uppdatera sin kod utan att vår app går sönder.
+* Klienten (vår väderapp) och servern (weatherAPI) är helt fristående. Så länge de följer REST-reglerna kan servern uppdatera sin kod utan att vår app går sönder.
 
-* 2. Servern sparar inte någon information om tidigare anrop. Varför gång vi ber om vädret måste vi ha med all information.
+* Servern sparar inte någon information om tidigare anrop. Varför gång vi ber om vädret måste vi ha med all information.
 
-* 3. I ett RESTful API så ser man all data som "resurser" och varje resurs har en unik adress, en så kallad endpoint.
+* I ett RESTful API så ser man all data som "resurser" och varje resurs har en unik adress, en så kallad endpoint.
 
 Om jag t.ex. skulle ha en webshop skulle endpointsen kunna se ut såhär.
 
@@ -145,3 +145,32 @@ När man förklarar skillnaderna på asynkron kod vs synkron kod så kan man sna
 - Await säger till JavaScript att vänta till promise är klart, hämta datan och fortsätt sedan till nästa rad.
 
 ( GÅ IGENOM DENNA FRÅGA IGEN OCH SE OM DET FINNS NÅGOT SÄTT ATT SKRIVA OM DETTA PÅ ETT BÄTTRE SÄTT )
+
+### Fråga 8: Felhantering och säkerhet
+
+Eftersom att vi kommunicerar med en extern server vid API-anrop så kan man aldrig garantera att servern svarar. Därför är felhantering jätte viktigt, utan den kan appen/sidan sluta svara på klick eller visa en tom skärm.
+
+Några exempel på saker som kan gå fel är:
+
+* Nätverksfel - Användaren tappar anslutningen eller har instabilt nät.
+
+* Serverfel - 500-statuskod fel som jag pratade om tidigare. Servern kanske ligger nere av någon anledning.
+
+* Klientfel - 400-statuskod. Användaren söker på en stad som inte finns eller kanske till och med att API-nyckeln är ogiltig.
+
+* Rate Limiting - Att man gör för många anrop på kort tid.
+
+Som utvecklare är man tvungen att hantera dessa fel och därför använder man `try` och `catch` runt våra funktioner.
+
+I `try` så kör vi själva anropet och om något går fel så fångar `catch` upp felet. Där kan man som utvecklare "logga" felet för oss själva via `console.error`, men kanske framför allt ge användaren feedback istället för att inte visa någonting. T.ex. "Oops, något gick fel, försök igen!"
+
+När man ska skapa en hemsida eller en app så vill man ju gärna inte att information om andra användare (om man har så att man kan skapa ett konto på en sida) ska hamna i fel händer, likaså en API-nyckel. En API-nyckel är ju som ett lösenord för vårt konto på aktuell server eller hos den tjänsten man använder. Om man laddar upp nyckeln till GitHub så kan vem som helst stjäla den. I vårt projekt så löste vi det genom att lagra API-nyckeln i en separat fil `(config.js)` lokalt som vi sedan exkluderade från Git med en `.gitignore`-fil.
+
+Det finns också någonting som heter CORS (Cross-Origin Resource Sharing). Det är en säkerhetsfunktion i webbläsaren som bestämmer vem som får hämta data från ett API. Om ett API inte tillåter anrop från min lokala Live Server får vi ett CORS-fel. Tanken med det är att det ska skydda servern från att svara på anrop som kommer från fel ställe, t.ex. en sida som försöker stjäla din data.
+
+En sak som vi råkade ut för i vår grupp i samband med denna uppgift var MIME-type. Och det fick vi lära oss att webbläsaren använder MIME-typer som ett säkerhetsfilter för att kontrollera att rätt sorts fil levereras.
+
+----------------------------------------------
+
+## DEL 2
+
